@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Christmas Gratitude</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: radial-gradient(circle, #f3e5ce 0%, #dcb885 100%);
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --red: #d32f2f;
+      --gold: #ffd700;
+      --green: #2e7d32;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      background: var(--bg-gradient);
+      font-family: 'Pacifico', cursive;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden; /* Hide scrollbars */
+      color: #5d4037;
+      position: relative;
+    }
+
+    /* --- 1. Background Stars (New Decoration) --- */
+    .star {
+      position: absolute;
+      background: white;
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      animation: twinkle 3s infinite ease-in-out;
+      z-index: 0;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* --- 2. Hanging Baubles (New Decoration) --- */
+    .bauble-container {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 100px;
+      pointer-events: none;
+      z-index: 12;
+      display: flex;
+      justify-content: space-around;
+      padding: 0 10%;
+    }
+
+    .bauble {
+      width: 2px; /* String */
+      height: 40px;
+      background: rgba(0,0,0,0.2);
+      position: relative;
+      animation: swing 3s infinite ease-in-out alternate;
+    }
+
+    .bauble::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: -9px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: inset -2px -2px 5px rgba(0,0,0,0.2);
+    }
+
+    .bauble:nth-child(even)::after { background: var(--gold); }
+    .bauble:nth-child(3n)::after { background: var(--green); }
+    .bauble:nth-child(odd) { height: 60px; animation-delay: 0.5s; }
+
+    @keyframes swing {
+      from { transform: rotate(-5deg); transform-origin: top; }
+      to { transform: rotate(5deg); transform-origin: top; }
+    }
+
+    /* --- Existing Snow --- */
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      pointer-events: none;
+      z-index: 999; 
+    }
+
+    /* --- Lights --- */
+    .lights {
+      position: fixed;
+      top: -5px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      z-index: 11;
+      pointer-events: none;
+    }
+    .lights span {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      animation: glow 1.5s infinite alternate;
+    }
+    .lights span:nth-child(odd) { background: #ff3333; animation-delay: 0s; }
+    .lights span:nth-child(even) { background: #00ff00; animation-delay: 0.5s; }
+
+    @keyframes glow {
+      from { opacity: 0.4; } to { opacity: 1; box-shadow: 0 0 15px currentColor; }
+    }
+
+    /* --- Trees --- */
+    .tree {
+      position: fixed;
+      bottom: 0;
+      font-size: 80px;
+      z-index: 1;
+      opacity: 0.8;
+      filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1));
+    }
+    .tree.left { left: -10px; transform: rotate(-5deg); }
+    .tree.right { right: -10px; transform: rotate(5deg); }
+
+    /* --- Main Card --- */
+    .card {
+      position: relative;
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      padding: 40px 30px;
+      border-radius: 24px;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+      max-width: 450px;
+      width: 90%;
+      border: 3px solid var(--gold);
+      z-index: 5;
+    }
+
+    /* --- 3. Corner Holly Decoration (New) --- */
+    .holly {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      z-index: 6;
+      pointer-events: none;
+    }
+    .holly-tl { top: -20px; left: -20px; transform: rotate(-45deg); }
+    .holly-tr { top: -20px; right: -20px; transform: scaleX(-1) rotate(-45deg); }
+
+    /* --- 4. Candy Canes (New) --- */
+    .cane {
+      position: absolute;
+      bottom: 10px;
+      width: 40px;
+      opacity: 0.8;
+      z-index: 4;
+    }
+    .cane-l { left: 20px; transform: rotate(-15deg); }
+    .cane-r { right: 20px; transform: scaleX(-1) rotate(-15deg); }
+
+    h1 {
+      margin: 15px 0 10px;
+      color: var(--red);
+      font-size: 2.2rem;
+      text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+    }
+
+    p {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.1rem;
+      color: #6d4c41;
+      margin-bottom: 25px;
+    }
+
+    /* --- Gift --- */
+    .gift-container {
+      position: relative;
+      width: 120px;
+      height: 130px;
+      margin: 0 auto 20px;
+      cursor: pointer;
+      transition: transform 0.3s;
+      z-index: 10;
+    }
+    .gift-container:hover { transform: scale(1.05); }
+
+    .gift-lid {
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .gift-container.open .gift-lid { transform: translateY(-40px) rotate(-20deg); opacity: 0; }
+    .gift-container.open .gift-box { opacity: 0; transform: scale(0.8); transition: all 0.5s ease; }
+
+    /* --- Message --- */
+    .message-content {
+      display: none;
+      animation: fadeIn 1s ease forwards;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    .music-btn {
+      position: absolute; top: 15px; right: 15px;
+      background: white; border: 2px solid var(--red);
+      color: var(--red); width: 35px; height: 35px;
+      border-radius: 50%; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 20;
+    }
+
+    /* SVG Styles */
+    svg { width: 100%; height: 100%; filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2)); }
+  </style>
+</head>
+<body>
+
+  <audio id="music" loop> <source src="christmas.mp3" type="audio/mpeg"> </audio>
+
+  <div id="star-container"></div>
+
+  <div class="bauble-container">
+    <div class="bauble"></div>
+    <div class="bauble"></div>
+    <div class="bauble"></div>
+    <div class="bauble"></div>
+    <div class="bauble"></div>
+  </div>
+
+  <div class="lights">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="tree left">🎄</div>
+  <div class="tree right">🎄</div>
+
+  <div class="card">
+    
+    <div class="holly holly-tl">
+      <svg viewBox="0 0 100 100">
+        <path d="M50 50 Q30 20 50 10 Q70 20 50 50" fill="#2e7d32" />
+        <path d="M50 50 Q20 70 10 50 Q20 30 50 50" fill="#2e7d32" />
+        <path d="M50 50 Q70 80 50 90 Q30 80 50 50" fill="#2e7d32" />
+        <circle cx="50" cy="50" r="8" fill="#d32f2f" />
+        <circle cx="40" cy="45" r="7" fill="#d32f2f" />
+        <circle cx="60" cy="45" r="7" fill="#d32f2f" />
+      </svg>
+    </div>
+    <div class="holly holly-tr">
+      <svg viewBox="0 0 100 100">
+        <path d="M50 50 Q30 20 50 10 Q70 20 50 50" fill="#2e7d32" />
+        <path d="M50 50 Q20 70 10 50 Q20 30 50 50" fill="#2e7d32" />
+        <path d="M50 50 Q70 80 50 90 Q30 80 50 50" fill="#2e7d32" />
+        <circle cx="50" cy="50" r="8" fill="#d32f2f" />
+        <circle cx="40" cy="45" r="7" fill="#d32f2f" />
+        <circle cx="60" cy="45" r="7" fill="#d32f2f" />
+      </svg>
+    </div>
+
+    <button class="music-btn" onclick="toggleMusic()">🎵</button>
+    
+    <h1>With Gratitude</h1>
+    <p>This holiday season, I want to thank the people who made my year brighter.</p>
+
+    <div class="cane cane-l">
+      <svg viewBox="0 0 50 100">
+        <path d="M15,10 A15,15 0 1,1 45,10 V80 A5,5 0 0,1 35,80 V10 A5,5 0 1,0 15,10 Z" fill="white" stroke="#d32f2f" stroke-width="6" />
+      </svg>
+    </div>
+    <div class="cane cane-r">
+      <svg viewBox="0 0 50 100">
+        <path d="M15,10 A15,15 0 1,1 45,10 V80 A5,5 0 0,1 35,80 V10 A5,5 0 1,0 15,10 Z" fill="white" stroke="#d32f2f" stroke-width="6" />
+      </svg>
+    </div>
+
+    <div class="gift-container" onclick="openGift(this)">
+      <svg viewBox="0 0 120 130">
+        <g class="gift-lid">
+          <rect x="0" y="0" width="120" height="30" rx="5" fill="#d32f2f" />
+          <g fill="#d4af37">
+            <path d="M60,15 C50,0 30,0 30,15 C30,30 50,30 60,15 Z" />
+            <path d="M60,15 C70,0 90,0 90,15 C90,30 70,30 60,15 Z" />
+            <circle cx="60" cy="15" r="8" fill="#ffd700"/>
+          </g>
+        </g>
+        <rect class="gift-box" x="0" y="30" width="120" height="100" rx="8" fill="#d32f2f" />
+        <rect x="52" y="30" width="16" height="100" fill="#ffd700"/>
+      </svg>
+    </div>
+
+    <div class="message-content" id="message">
+      <p style="font-weight: bold;">
+        Your kindness, support, and wisdom have meant the world to me. <br> 
+        <br>You are a blessing.
+      </p>
+      <h2 style="color:var(--red); font-size:1.5rem;">❤️ Merry Christmas ❤️</h2>
+    </div>
+  </div>
+
+  <script>
+  /* ---------------- PERSONALIZED MESSAGES ---------------- */
+  const messages = {
+    teacher: {
+      title: "Dear Teacher ❤️",
+      text: "Thank you for your patience, guidance, and belief in me. I will always carry your lessons with me."
+    },
+    friend: {
+      title: "Dear My Friend 🎄",
+      text: "Thank you for standing by me, encouraging me, and making life brighter."
+    },
+    mentor: {
+      title: "Dear Mentor ✨",
+      text: "Your wisdom and support changed my way of thinking. I am deeply grateful."
+    }
+  };
+
+  const params = new URLSearchParams(window.location.search);
+  const recipient = params.get("to");
+  const messageBox = document.getElementById("message");
+
+  if (recipient && messages[recipient]) {
+    messageBox.innerHTML = `
+      <p style="font-weight:bold;">${messages[recipient].title}</p>
+      <p>${messages[recipient].text}</p>
+      <h2 style="color:#d32f2f;">❤️ Merry Christmas ❤️</h2>
+    `;
+  }
+
+  /* ---------------- MUSIC (AUTOPLAY SAFE) ---------------- */
+  const music = document.getElementById('music');
+  const musicBtn = document.querySelector('.music-btn');
+  let isPlaying = false;
+
+  function toggleMusic() {
+    if (isPlaying) {
+      music.pause();
+      musicBtn.innerHTML = '🎵';
+    } else {
+      music.play();
+      musicBtn.innerHTML = '⏸';
+    }
+    isPlaying = !isPlaying;
+  }
+
+  /* ---------------- GIFT OPEN + SPARKLE ---------------- */
+  function openGift(el) {
+    if (el.classList.contains('open')) return;
+
+    el.classList.add('open');
+    toggleMusic(); // start music on interaction
+
+    createSparkles(el);
+
+    setTimeout(() => {
+      el.style.display = 'none';
+      messageBox.style.display = 'block';
+    }, 700);
+  }
+
+  function createSparkles(target) {
+    for (let i = 0; i < 25; i++) {
+      const sparkle = document.createElement("div");
+      sparkle.style.position = "absolute";
+      sparkle.style.width = sparkle.style.height = "8px";
+      sparkle.style.background = "radial-gradient(circle, #fff, #ffd700)";
+      sparkle.style.borderRadius = "50%";
+      sparkle.style.left = "50%";
+      sparkle.style.top = "50%";
+      sparkle.style.pointerEvents = "none";
+      sparkle.style.zIndex = "999";
+
+      const angle = Math.random() * 2 * Math.PI;
+      const distance = Math.random() * 80 + 20;
+
+      sparkle.animate([
+        { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
+        {
+          transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(0)`,
+          opacity: 0
+        }
+      ], {
+        duration: 800,
+        easing: "ease-out"
+      }).onfinish = () => sparkle.remove();
+
+      target.appendChild(sparkle);
+    }
+  }
+
+  /* ---------------- SNOW ---------------- */
+  function createSnow() {
+    const snow = document.createElement('div');
+    snow.className = 'snowflake';
+    snow.style.left = Math.random() * 100 + 'vw';
+    snow.style.width = snow.style.height = Math.random() * 6 + 4 + 'px';
+
+    const duration = Math.random() * 3000 + 4000;
+    snow.animate(
+      [
+        { transform: 'translateY(0) rotate(0deg)' },
+        { transform: `translateY(110vh) rotate(${Math.random() * 360}deg)` }
+      ],
+      { duration, iterations: 1 }
+    ).onfinish = () => snow.remove();
+
+    document.body.appendChild(snow);
+  }
+  setInterval(createSnow, 120);
+
+  /* ---------------- STARS ---------------- */
+  const starContainer = document.getElementById('star-container');
+  for (let i = 0; i < 30; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 90 + '%';
+    star.style.width = star.style.height = Math.random() * 12 + 6 + 'px';
+    star.style.animationDelay = Math.random() * 4 + 's';
+    starContainer.appendChild(star);
+  }
+</script>
+</body>
+</html>
